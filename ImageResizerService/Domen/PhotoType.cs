@@ -19,6 +19,7 @@ namespace FotoConvector.Domen
         [DefaultValue("")]
         public string X8080 { get; set; }
 
+        [DefaultValue("")]
         public string X7296 { get; set; }
 
         [DefaultValue("")]
