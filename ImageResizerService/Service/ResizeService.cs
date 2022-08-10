@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
+using Npgsql;
 
 namespace ImageResizerService.Service
 {
@@ -22,7 +23,7 @@ namespace ImageResizerService.Service
 
         public static Image resizeImage(Image imgToResize, Size size)
         {
-            return new Bitmap(imgToResize, size); 
+            return new Bitmap(imgToResize, size);
         }
     }
 }

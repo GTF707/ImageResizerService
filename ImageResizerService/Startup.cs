@@ -1,4 +1,5 @@
 using ImageResizerService.Service;
+using ImageResizerService.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,8 @@ namespace ImageResizerService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<AppDbContext>();
 
             services.AddScoped<IResizeService, ResizeService>();
 
