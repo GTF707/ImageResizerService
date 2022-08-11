@@ -24,9 +24,9 @@ namespace ImageResizerService.Controllers
         [ProducesResponseType(typeof(void), 200)]
         [Produces("application/json")]
         [HttpPost("convert-image")]
-        public void ConvertImage(IFormFile image)
+        public async Task<string> ConvertImage(IFormFile image)
         {
-            ResizeService.ConvertImage(image);
+            return await ResizeService.ConvertImage(image);
         }
     }
 }
