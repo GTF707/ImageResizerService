@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using ImageResizerService.Domen;
+using ImageResizerService.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -9,6 +11,7 @@ namespace ImageResizerService.Service
     public class ResizeService : IResizeService
     {
         public string fileName { get; private set; }
+        private IPhotoProvider PhotoProvider { get; set; }
 
         public async Task<string> ConvertImage(IFormFile image)
         {
@@ -59,7 +62,13 @@ namespace ImageResizerService.Service
             convertedImage9.Save(@"/Users/kristina/Desktop/photo/X4040/" + image.FileName);
             //sw.Close();
 
+            Photo photo = new Photo();
+            photo.Name = fileName;
+            photo.CreateDate = DateTime.Now;
+            photo.UpdateDate = DateTime.Now;
+            PhotoProvider.Create(photo);
             return fileName;
+
         }
         public static Image resizeImage(Image imgToResize, Size size)
         {

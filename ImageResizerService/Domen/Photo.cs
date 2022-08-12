@@ -1,8 +1,8 @@
 ﻿namespace ImageResizerService.Domen
 {
-    public class Photo
+    public class Photo : PersistentObject
     {
         public string Name { get; set; }
-        public long Id { get; set; }
+
     }
 }
