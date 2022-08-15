@@ -6,10 +6,7 @@ namespace ImageResizerService.Storage
 {
     public interface IDbContext
     {
-        DbSet<Domen.Task> Tasks { get; set; }
-
-        DbSet<Photos> Photos { get; set; }
-
+        DbSet<Photo> Photos { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
     }

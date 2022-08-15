@@ -15,6 +15,7 @@ namespace ImageResizerService.Service
 
         public async Task<string> ConvertImage(IFormFile image)
         {
+
             string fileName = string.Empty;
 
             if (image != null)
@@ -30,6 +31,8 @@ namespace ImageResizerService.Service
                     await image.CopyToAsync(fileStream);
                 }
             }
+
+
             var file = Image.Load(image.OpenReadStream());
             var convertedImage = resizeImage(file, new Size(192, 184));
             var convertedImage1 = resizeImage(file, new Size(168, 168));
@@ -39,12 +42,13 @@ namespace ImageResizerService.Service
             var convertedImage5 = resizeImage(file, new Size(72, 96));
             var convertedImage6 = resizeImage(file, new Size(72, 88));
             var convertedImage7 = resizeImage(file, new Size(56, 56));
-            var convertedImage8 = resizeImage(file, new Size(40, 48));
+            var convertedImage8 = resizeImage(file, new Size(48, 48));
             var convertedImage9 = resizeImage(file, new Size(40, 40));
-
             //StreamWriter sw = new StreamWriter(@"/Users/kristina/Desktop/photo/.jpeg");
             //sw.WriteLine("Photo is downloaded");
             //sw.WriteLine(convertedImage.Size);
+
+
 
             convertedImage.Save(@"/Users/kristina/Desktop/photo/X192184/" + image.FileName);
             convertedImage1.Save(@"/Users/kristina/Desktop/photo/X168168/" + image.FileName);
