@@ -1,5 +1,3 @@
-using ImageResizerService.Repository.Interfaces;
-using ImageResizerService.Repository.Providers;
 using ImageResizerService.Service;
 using ImageResizerService.Storage;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +26,6 @@ namespace ImageResizerService
         }
 
         public IConfiguration Configuration { get; }
-        public IPhotoProvider PhotoProvider { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,9 +35,6 @@ namespace ImageResizerService
             services.AddDbContext<AppDbContext>();
 
             services.AddScoped<IResizeService, ResizeService>();
-
-            services.AddScoped<IPhotoProvider, PhotoProvider>();
-            
 
             services.AddSwaggerGen(c =>
             {

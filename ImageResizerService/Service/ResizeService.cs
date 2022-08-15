@@ -13,11 +13,6 @@ namespace ImageResizerService.Service
         public string fileName { get; private set; }
         private IPhotoProvider PhotoProvider { get; set; }
 
-        public ResizeService(IPhotoProvider photoProvider)
-        {
-            PhotoProvider = photoProvider;
-        }
-
         public async Task<string> ConvertImage(IFormFile image)
         {
             string fileName = string.Empty;
@@ -63,13 +58,11 @@ namespace ImageResizerService.Service
             convertedImage9.Save(@"/Users/kristina/Desktop/photo/X4040/" + image.FileName);
             //sw.Close();
 
-            var photo = new Photo
-            {
-                Name = fileName,
-
-            };
+            Photo photo = new Photo();
+            photo.Name = fileName;
+            photo.CreateDate = DateTime.Now;
+            photo.UpdateDate = DateTime.Now;
             PhotoProvider.Create(photo);
-            PhotoProvider.SaveChanges();
             return fileName;
 
         }
@@ -79,6 +72,7 @@ namespace ImageResizerService.Service
                     i => i.Resize(size.Width, size.Height));
             return clone;
         }
+
 
     }
 }

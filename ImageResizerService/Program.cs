@@ -21,7 +21,5 @@ namespace ImageResizerService
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-
     }
 }
