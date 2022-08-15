@@ -1,22 +1,16 @@
 ﻿using ImageResizerService.Domen;
+using ImageResizerService.Providers.Repository;
 using ImageResizerService.Repository.Interfaces;
 using ImageResizerService.Storage;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace ImageResizerService.Repository.Providers
 {
-    public class PhotoProvider : IPhotoProvider
+    public class PhotoProvider : Repository<Photo>, IPhotoProvider
     {
-        private readonly AppDbContext context;
-
         public PhotoProvider(AppDbContext context)
-        {
-            this.context = context;
-        }
-
-        public void Create(Photo item)
-        {
-            context.Set<Photo>().Add(item);
+            : base(context)
+        { 
         }
     }
 }
