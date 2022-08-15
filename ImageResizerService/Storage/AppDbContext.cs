@@ -9,7 +9,8 @@ namespace ImageResizerService.Storage
 {
     public class AppDbContext : DbContext, IDbContext
     {
-        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Photo> Photo { get; set; }
+        DbSet<Domen.Task> IDbContext.Tasks { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public AppDbContext() : base()
         {

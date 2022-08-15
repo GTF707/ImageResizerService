@@ -8,7 +8,7 @@ namespace ImageResizerService.Storage
     {
         DbSet<Domen.Task> Tasks { get; set; }
 
-        DbSet<Photos> Photos { get; set; }
+        DbSet<Photo> Photo { get; set; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

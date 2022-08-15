@@ -20,6 +20,7 @@ namespace ImageResizerService.Providers.Repository.Repository
         Task UpdateRange(IEnumerable<T> entities);
         Task<int> SaveChangesAsync();
         int SaveChanges();
-
+       
+        
     }
 }
