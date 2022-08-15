@@ -55,16 +55,16 @@ namespace ImageResizerService.Service
 
 
 
-            convertedImage.Save(@"/Users/kristina/Desktop/photo/X192184/" + image.FileName);
-            convertedImage1.Save(@"/Users/kristina/Desktop/photo/X168168/" + image.FileName);
-            convertedImage2.Save(@"/Users/kristina/Desktop/photo/X128168/" + image.FileName);
-            convertedImage3.Save(@"/Users/kristina/Desktop/photo/X112112/" + image.FileName);
-            convertedImage4.Save(@"/Users/kristina/Desktop/photo/X8080/" + image.FileName);
-            convertedImage5.Save(@"/Users/kristina/Desktop/photo/X7296/" + image.FileName);
-            convertedImage6.Save(@"/Users/kristina/Desktop/photo/X7288/" + image.FileName);
-            convertedImage7.Save(@"/Users/kristina/Desktop/photo/X5656/" + image.FileName);
-            convertedImage8.Save(@"/Users/kristina/Desktop/photo/X4848/" + image.FileName);
-            convertedImage9.Save(@"/Users/kristina/Desktop/photo/X4040/" + image.FileName);
+            convertedImage.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X192184/" + image.FileName);
+            convertedImage1.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X168168/" + image.FileName);
+            convertedImage2.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X128168/" + image.FileName);
+            convertedImage3.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X112112/" + image.FileName);
+            convertedImage4.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X8080/" + image.FileName);
+            convertedImage5.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X7296/" + image.FileName);
+            convertedImage6.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X7288/" + image.FileName);
+            convertedImage7.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X5656/" + image.FileName);
+            convertedImage8.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X4848/" + image.FileName);
+            convertedImage9.Save(@"C:/Users/Alexander/Desktop/ConvertedImages/X4040/" + image.FileName);
             //sw.Close();
 
             var photo = new Photo
