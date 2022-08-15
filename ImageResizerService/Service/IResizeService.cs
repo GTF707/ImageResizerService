@@ -10,4 +10,3 @@ namespace ImageResizerService.Service
 
     }
 }
-
