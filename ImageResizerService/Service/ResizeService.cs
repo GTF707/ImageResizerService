@@ -15,7 +15,7 @@ namespace ImageResizerService.Service
         public string fileName { get; private set; }
         private IPhotoProvider PhotoProvider { get; set; }
 
-        public string link = "C:/Users/Alexander/Desktop/ConvertedImages";
+        public string link = @"/Users/kristina/Desktop/photo/";
         
        
 
@@ -59,8 +59,6 @@ namespace ImageResizerService.Service
                 var convertedImage = resizeImage(file, new Size(Convert.ToInt32(width), Convert.ToInt32(height)));
                 convertedImage.Save($@"{link}/X{width + height}/" + image.FileName);
             }
-         
-
 
             var photo = new Photo
             {

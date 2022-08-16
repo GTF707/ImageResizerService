@@ -34,5 +34,9 @@
 	  <None Remove="FreeSql.DbContext" />
 	  <None Remove="helper-net" />
 	  <None Remove="SixLabors.ImageSharp" />
+	  <None Remove="Domen\Enum\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Domen\Enum\" />
 	</ItemGroup>
 </Project>
