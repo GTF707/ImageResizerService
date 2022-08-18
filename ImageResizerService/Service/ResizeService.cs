@@ -23,12 +23,9 @@ namespace ImageResizerService.Service
 
         public async Task<string> SaveImage(IFormFile image)
         {
-            string fileName = string.Empty;
-
             if (image != null)
             {
-                fileName = $"{CryptHelper.CreateMD5(DateTime.Now.ToString())}{Path.GetExtension(image.FileName)}";
-
+                string fileName = $"{CryptHelper.CreateMD5(DateTime.Now.ToString())}{Path.GetExtension(image.FileName)}";
                 var path = $"{Directory.GetCurrentDirectory()}/Files/";
                 path = path.Replace(@"\", "/");
 
@@ -51,7 +48,7 @@ namespace ImageResizerService.Service
                 PhotoProvider.Create(photo);
                 PhotoProvider.SaveChanges();
             }
-            return fileName;
+            return link;
         }
     }
 }

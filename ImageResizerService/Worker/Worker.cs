@@ -29,20 +29,21 @@ namespace ImageResizerService.Worker
         {
             Timer = new Timer(async (t) => await DoWork(), null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
         }
-
-        private async Task DoWork()
+           
+        private async Task/*<List<string>>*/ DoWork()
         {
             var photos = await PhotoProvider
                 .GetAll()
                 .Where(x => x.PhotoStatus == Domen.Enum.PhotoStatus.Unreaded)
                 .ToListAsync();
 
-            foreach(var item in photos)
+            //List<string> pathsToFiles = new List<string>();
+
+            foreach (var item in photos)
             {
                 using (var stream = File.OpenRead(item.Path + item.Name))
                 {
                     var image = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
-
                     var file = Image.Load(image.OpenReadStream());
 
                     PhotoType type = new PhotoType(new List<string>());
@@ -54,15 +55,14 @@ namespace ImageResizerService.Worker
                         var height = splitedFormat[2];
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(width), Convert.ToInt32(height)));
                         convertedImage.Save($@"{link}/X{width + height}/" + image.FileName);
+                        //pathsToFiles.Add($@"{link}/X{width + height}/" + image.FileName);
                     }
                 };
-
                 item.PhotoStatus = Domen.Enum.PhotoStatus.Readed;
                 PhotoProvider.Update(item);
                 await PhotoProvider.SaveChangesAsync();
             }
-            
-
+            //return pathsToFiles;
         }
 
         public static Image resizeImage(Image imgToResize, Size size)
