@@ -17,16 +17,16 @@ namespace ImageResizerService.Controllers
         }
 
         /// <summary>
-        /// Конвертация файла / Convertation file
+        /// Сохранение файла / Save file
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(void), 200)]
         [Produces("application/json")]
-        [HttpPost("convert-image")]
+        [HttpPost("save-file")]
         public async Task<string> ConvertImage(IFormFile image)
         {
-            return await ResizeService.ConvertImage(image);
+            return await ResizeService.SaveImage(image);
         }
     }
 }

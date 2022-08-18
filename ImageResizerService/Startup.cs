@@ -4,6 +4,7 @@ using ImageResizerService.Service;
 using ImageResizerService.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,10 +37,15 @@ namespace ImageResizerService
 
             services.AddDbContext<AppDbContext>();
 
-            services.AddScoped<IResizeService, ResizeService>();
+            services.AddSingleton<IResizeService, ResizeService>();
 
-            services.AddScoped<IPhotoProvider, PhotoProvider>();
-            
+            services.AddSingleton<IPhotoProvider, PhotoProvider>();
+
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=Masters;UserId=postgres;Password=Ivan230691");
+            services.AddSingleton(s => new AppDbContext(optionsBuilder.Options));
+
+            services.AddHostedService<Worker.Worker>();
 
             services.AddSwaggerGen(c =>
             {

@@ -36,7 +36,9 @@
 	  <None Remove="SixLabors.ImageSharp" />
 	  <None Remove="Domen\Enum\" />
 	</ItemGroup>
+
+
 	<ItemGroup>
-	  <Folder Include="Domen\Enum\" />
+	  <Folder Include="Files\" />
 	</ItemGroup>
 </Project>

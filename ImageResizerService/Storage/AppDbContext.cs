@@ -10,7 +10,7 @@ namespace ImageResizerService.Storage
     public class AppDbContext : DbContext, IDbContext
     {
         public DbSet<Photo> Photos { get; set; }
-        public DbSet<Domen.Tasks> Tasks { get; set; }
+        
 
         public AppDbContext() : base()
         {
@@ -24,7 +24,7 @@ namespace ImageResizerService.Storage
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=123456;Database=ImageStorage");
+            optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=89187786606Alex;Database=ImageStorage");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
