@@ -17,7 +17,7 @@ namespace ImageResizerService.Worker
 {
     public class Worker : BackgroundService
     {
-        public string link = "C:/Users/Alexander/Desktop/ConvertedImages";
+        public string Link = "C:/Users/Alexander/Desktop/ConvertedImages";
         private IPhotoProvider PhotoProvider;
         private Timer Timer;
 
@@ -30,14 +30,16 @@ namespace ImageResizerService.Worker
             Timer = new Timer(async (t) => await DoWork(), null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
         }
            
-        private async Task/*<List<string>>*/ DoWork()
+        private async Task DoWork()
         {
             var photos = await PhotoProvider
                 .GetAll()
                 .Where(x => x.PhotoStatus == Domen.Enum.PhotoStatus.Unreaded)
+                .Take(1000)
                 .ToListAsync();
 
-            //List<string> pathsToFiles = new List<string>();
+            photos
+                .ForEach(x => x.PhotoStatus = Domen.Enum.PhotoStatus.InProgress);
 
             foreach (var item in photos)
             {
@@ -54,15 +56,15 @@ namespace ImageResizerService.Worker
                         var width = splitedFormat[1];
                         var height = splitedFormat[2];
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(width), Convert.ToInt32(height)));
-                        convertedImage.Save($@"{link}/X{width + height}/" + image.FileName);
-                        //pathsToFiles.Add($@"{link}/X{width + height}/" + image.FileName);
+                        convertedImage.Save($@"{Link}/X{width + height}/" + image.FileName);
                     }
                 };
-                item.PhotoStatus = Domen.Enum.PhotoStatus.Readed;
-                PhotoProvider.Update(item);
-                await PhotoProvider.SaveChangesAsync();
             }
-            //return pathsToFiles;
+            photos
+                .ForEach(x => x.PhotoStatus = Domen.Enum.PhotoStatus.Readed);
+                
+            await PhotoProvider.UpdateRange(photos);
+            await PhotoProvider.SaveChangesAsync();
         }
 
         public static Image resizeImage(Image imgToResize, Size size)
