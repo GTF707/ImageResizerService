@@ -2,31 +2,37 @@
 using System.ComponentModel;
 namespace FotoConvector.Domen
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PhotoType
     {
-
-        [DefaultValue("")]
-        public List<string> formatNames { get; set; }
-        
-
-        public PhotoType(List<string> formatNames)
+        /// <summary>
+        /// Photo types
+        /// </summary>
+        public static List<PhotoType> Types
         {
-            this.formatNames = formatNames;
-            
-            formatNames.Add("X192X184");
-            formatNames.Add("X168X168");
+            get {
+                if (Types == null || Types.Count == 0)
+                    fillTypes(Types);
+                return Types;
+            } 
+        }
+        public double Width { get; }
+        public double Height { get; }
 
-            formatNames.Add("X128X168");
-            formatNames.Add("X112X112");
+        private PhotoType(double width, double height)
+        {
+            Width = width;
+            Height = height;
+        }
 
-            formatNames.Add("X80X80");
-            formatNames.Add("X72X96");
+        private static void fillTypes(List<PhotoType> types)
+        {
+            types = new List<PhotoType>();
+            for(int i = 2; i < 16; i+=2)
+                types.Add(new PhotoType(i* 32, i * 32));
 
-            formatNames.Add("X72X88");
-            formatNames.Add("X56X56");
-
-            formatNames.Add("X48X48");
-            formatNames.Add("X40X40");
         }
     }
 
