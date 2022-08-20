@@ -37,9 +37,6 @@ namespace ImageResizerService.Worker
         private async Task doWork()
         {
             const int POOL_SIZE = 10;
-                
-            //photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
-            //await PhotoProvider.SaveChangesAsync();
 
             Task[] tasks = new Task[POOL_SIZE];
             for (int i = 0; i < POOL_SIZE; i++)
@@ -55,6 +52,9 @@ namespace ImageResizerService.Worker
                     Thread.Sleep(1000);
                     return;
                 }
+
+                photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
+                await PhotoProvider.SaveChangesAsync();
                 tasks[i] = resizePhoto(photos[i]);
                 Task.Run(async () => tasks[i]);
 
