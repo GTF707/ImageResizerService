@@ -17,30 +17,17 @@ using System.Threading.Tasks;
 
 namespace ImageResizerService.Worker
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class Worker : BackgroundService
     {
-        /// <summary>
-        /// 
-        /// </summary>
+
         public const string LINK = "C:/Users/Alexander/Desktop/ConvertedImages";
         private IPhotoProvider PhotoProvider;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="photoProvider"></param>
         public Worker(IPhotoProvider photoProvider)
         {
             PhotoProvider = photoProvider;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while(true)
@@ -50,21 +37,33 @@ namespace ImageResizerService.Worker
         private async Task doWork()
         {
             const int POOL_SIZE = 10;
-            var photos = await PhotoProvider
-                .GetAll()
-                .Where(x => x.PhotoStatus.Equals(PhotoStatus.Unreaded))
-                .Take(POOL_SIZE)
-                .ToListAsync();
-            photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
-            await PhotoProvider.SaveChangesAsync();
+                
+            //photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
+            //await PhotoProvider.SaveChangesAsync();
 
             Task[] tasks = new Task[POOL_SIZE];
             for (int i = 0; i < POOL_SIZE; i++)
-                tasks[i] = resizePhoto(photos[i]);
+            {
+                var photos = await PhotoProvider
+                    .GetAll()
+                    .Where(x => x.PhotoStatus.Equals(PhotoStatus.Unreaded))
+                    .Take(10)
+                    .ToListAsync();
 
-            Task.WaitAll(tasks);
-            photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
-            await PhotoProvider.SaveChangesAsync();
+                if (photos.Count == 0)
+                {
+                    Thread.Sleep(1000);
+                    return;
+                }
+                tasks[i] = resizePhoto(photos[i]);
+                Task.Run(async () => tasks[i]);
+
+                //Task.WaitAll(tasks);
+                photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
+                await PhotoProvider.SaveChangesAsync();
+            }
+                
+
         }
 
         private async Task resizePhoto(Photo photo)
@@ -73,10 +72,10 @@ namespace ImageResizerService.Worker
             {
                 var file = Image.Load(stream);
 
-                foreach (var type in PhotoType.Types)
+                foreach (var type in PhotoType.getTypes())
                 {
                     var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                    await convertedImage.SaveAsync($@"{LINK}/X{type.Width + type.Height}/" + photo.Name);
+                    await convertedImage.SaveAsync($@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/" + photo.Name);
                 }
             };
         }

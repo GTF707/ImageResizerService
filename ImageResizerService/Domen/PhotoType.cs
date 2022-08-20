@@ -2,22 +2,17 @@
 using System.ComponentModel;
 namespace FotoConvector.Domen
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class PhotoType
     {
-        /// <summary>
-        /// Photo types
-        /// </summary>
-        public static List<PhotoType> Types
+        private static List<PhotoType> Types;
+
+        public static List<PhotoType> getTypes()
         {
-            get {
-                if (Types == null || Types.Count == 0)
-                    fillTypes(Types);
-                return Types;
-            } 
+            if (Types == null || Types.Count == 0)
+                Types = fillTypes();
+            return Types;
         }
+
         public double Width { get; }
         public double Height { get; }
 
@@ -27,12 +22,13 @@ namespace FotoConvector.Domen
             Height = height;
         }
 
-        private static void fillTypes(List<PhotoType> types)
+        private static List<PhotoType> fillTypes()
         {
-            types = new List<PhotoType>();
+            var types = new List<PhotoType>();
             for(int i = 2; i < 16; i+=2)
                 types.Add(new PhotoType(i* 32, i * 32));
 
+            return types;
         }
     }
 
