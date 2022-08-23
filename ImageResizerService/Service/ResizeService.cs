@@ -25,13 +25,14 @@ namespace ImageResizerService.Service
         {
             if (image != null)
             {
-                string fileName = $"{CryptHelper.CreateMD5(DateTime.Now.ToString())}{Path.GetExtension(image.FileName)}";
+                string fileName = $"{CryptHelper.CreateMD5(Guid.NewGuid().ToString())}{Path.GetExtension(image.FileName)}";
                 var path = $"{Directory.GetCurrentDirectory()}/Files/";
                 path = path.Replace(@"\", "/");
 
 
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
+
 
                 using (var fileStream = new FileStream(path + fileName, FileMode.Create))
                 {

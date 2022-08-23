@@ -36,32 +36,39 @@ namespace ImageResizerService.Worker
 
         private async Task doWork()
         {
-            const int POOL_SIZE = 10;
+            //const int POOL_SIZE = 10;
 
-            Task[] tasks = new Task[POOL_SIZE];
-            for (int i = 0; i < POOL_SIZE; i++)
+            //Task[] tasks = new Task[POOL_SIZE];
+            //for (int i = 0; i < POOL_SIZE; i++)
+            //{
+            var photos = await PhotoProvider
+                .GetAll()
+                .Where(x => x.PhotoStatus.Equals(PhotoStatus.Unreaded))
+                .Take(10)
+                .ToListAsync();
+
+            if (photos.Count == 0)
             {
-                var photos = await PhotoProvider
-                    .GetAll()
-                    .Where(x => x.PhotoStatus.Equals(PhotoStatus.Unreaded))
-                    .Take(10)
-                    .ToListAsync();
+                Thread.Sleep(1000);
+                return;
+            }
 
-                if (photos.Count == 0)
-                {
-                    Thread.Sleep(1000);
-                    return;
-                }
+            photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
+            await PhotoProvider.SaveChangesAsync();
 
-                photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
-                await PhotoProvider.SaveChangesAsync();
-                tasks[i] = resizePhoto(photos[i]);
-                Task.Run(async () => tasks[i]);
+            foreach (var photo in photos)
+            {
+                await resizePhoto(photo);
+            }
+                //tasks[i] = resizePhoto(photos[i]);
+                //Task.Run(async () => tasks[i]);
 
                 //Task.WaitAll(tasks);
-                photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
-                await PhotoProvider.SaveChangesAsync();
-            }
+
+            photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
+            await PhotoProvider.SaveChangesAsync();
+            //}
+
                 
 
         }
