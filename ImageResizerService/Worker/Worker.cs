@@ -82,47 +82,16 @@ namespace ImageResizerService.Worker
                 foreach (var type in PhotoType.getTypes())
                 {
                     var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                    await convertedImage.SaveAsync($@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/" + photo.Name);
+                    var path = $@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/";
+
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+
+                    await convertedImage.SaveAsync(path + photo.Name);
                 }
             };
         }
            
-        //private async Task DoWork()
-        //{
-        //    var photos = await PhotoProvider
-        //        .GetAll()
-        //        .Where(x => x.PhotoStatus == Domen.Enum.PhotoStatus.Unreaded)
-        //        .Take(1)
-        //        .ToListAsync();
-
-        //    photos
-        //        .ForEach(x => x.PhotoStatus = Domen.Enum.PhotoStatus.InProgress);
-
-        //    foreach (var item in photos)
-        //    {
-        //        using (var stream = File.OpenRead(item.Path + item.Name))
-        //        {
-        //            var image = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
-        //            var file = Image.Load(image.OpenReadStream());
-
-
-        //            foreach (var format in type.formatNames)
-        //            {
-        //                string[] splitedFormat = format.Split('X');
-        //                var width = splitedFormat[1];
-        //                var height = splitedFormat[2];
-        //                var convertedImage = resizeImage(file, new Size(Convert.ToInt32(width), Convert.ToInt32(height)));
-        //                convertedImage.Save($@"{Link}/X{width + height}/" + image.FileName);
-        //            }
-        //        };
-        //    }
-        //    photos
-        //        .ForEach(x => x.PhotoStatus = Domen.Enum.PhotoStatus.Readed);
-                
-        //    await PhotoProvider.UpdateRange(photos);
-        //    await PhotoProvider.SaveChangesAsync();
-        //}
-
         public static Image resizeImage(Image imgToResize, Size size)
         {
             var clone = imgToResize.Clone(
