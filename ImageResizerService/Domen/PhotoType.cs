@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 namespace FotoConvector.Domen
 {
     public class PhotoType
@@ -12,6 +13,15 @@ namespace FotoConvector.Domen
                 Types = fillTypes();
             return Types;
         }
+
+        public static PhotoType getFirst()
+        {
+            if (Types == null || Types.Count == 0)
+                Types = fillTypes();
+            return Types.First();
+        }
+
+        
 
         public double Width { get; }
         public double Height { get; }
@@ -31,5 +41,4 @@ namespace FotoConvector.Domen
             return types;
         }
     }
-
 }

@@ -81,13 +81,20 @@ namespace ImageResizerService.Worker
 
                 foreach (var type in PhotoType.getTypes())
                 {
-                    var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                    var path = $@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/";
+                    if(type.Width > file.Width || type.Height > file.Height)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
+                        var path = $@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/";
 
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
 
-                    await convertedImage.SaveAsync(path + photo.Name);
+                        await convertedImage.SaveAsync(path + photo.Name);
+                    }
                 }
             };
         }
