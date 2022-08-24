@@ -1,4 +1,5 @@
-﻿using ImageResizerService.Service;
+﻿using ImageResizerService.DTO;
+using ImageResizerService.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace ImageResizerService.Controllers
         [ProducesResponseType(typeof(void), 200)]
         [Produces("application/json")]
         [HttpPost("save-file")]
-        public async Task<string> ConvertImage(IFormFile image)
+        public async Task<ResponceFormatDto> ConvertImage(IFormFile image)
         {
             return await ResizeService.SaveImage(image);
         }

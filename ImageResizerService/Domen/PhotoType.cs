@@ -21,12 +21,10 @@ namespace FotoConvector.Domen
             return Types.First();
         }
 
-        
-
         public double Width { get; }
         public double Height { get; }
 
-        private PhotoType(double width, double height)
+        public PhotoType(double width, double height)
         {
             Width = width;
             Height = height;

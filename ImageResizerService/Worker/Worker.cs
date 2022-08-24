@@ -1,15 +1,12 @@
-﻿using FotoConvector.Domen;
-using ImageResizerService.Domen;
+﻿using ImageResizerService.Domen;
 using ImageResizerService.Domen.Enum;
 using ImageResizerService.Repository.Interfaces;
-using ImageResizerService.Service;
-using Microsoft.AspNetCore.Http;
+using ImageResizerService.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -79,14 +76,8 @@ namespace ImageResizerService.Worker
             {
                 var file = Image.Load(stream);
 
-                foreach (var type in PhotoType.getTypes())
+                foreach (var type in FormatOptimizer.GetFormats(file))
                 {
-                    if(type.Width > file.Width || type.Height > file.Height)
-                    {
-                        continue;
-                    }
-                    else
-                    {
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
                         var path = $@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/";
 
@@ -94,7 +85,6 @@ namespace ImageResizerService.Worker
                             Directory.CreateDirectory(path);
 
                         await convertedImage.SaveAsync(path + photo.Name);
-                    }
                 }
             };
         }
