@@ -47,7 +47,7 @@ namespace ImageResizerService
             services.AddSingleton<IPhotoProvider, PhotoProvider>();
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=Masters;UserId=postgres;Password=Ivan230691");
+            
             services.AddSingleton(s => new AppDbContext(optionsBuilder.Options));
 
             services.AddHostedService<Worker.Worker>();

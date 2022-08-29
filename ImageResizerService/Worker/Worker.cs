@@ -17,7 +17,7 @@ namespace ImageResizerService.Worker
     public class Worker : BackgroundService
     {
 
-        public const string LINK = "C:/Users/Alexander/Desktop/ConvertedImages";
+        //public const string LINK = "C:/Users/Alexander/Desktop/ConvertedImages";
         private IPhotoProvider PhotoProvider;
 
         public Worker(IPhotoProvider photoProvider)
@@ -33,11 +33,6 @@ namespace ImageResizerService.Worker
 
         private async Task doWork()
         {
-            //const int POOL_SIZE = 10;
-
-            //Task[] tasks = new Task[POOL_SIZE];
-            //for (int i = 0; i < POOL_SIZE; i++)
-            //{
             var photos = await PhotoProvider
                 .GetAll()
                 .Where(x => x.PhotoStatus.Equals(PhotoStatus.Unreaded))
@@ -57,16 +52,9 @@ namespace ImageResizerService.Worker
             {
                 await resizePhoto(photo);
             }
-                //tasks[i] = resizePhoto(photos[i]);
-                //Task.Run(async () => tasks[i]);
-
-                //Task.WaitAll(tasks);
 
             photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
             await PhotoProvider.SaveChangesAsync();
-            //}
-
-                
 
         }
 
@@ -79,7 +67,7 @@ namespace ImageResizerService.Worker
                 foreach (var type in FormatOptimizer.GetFormats(file))
                 {
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                        var path = $@"{LINK}/X{type.Width.ToString() + type.Height.ToString()}/";
+                        var path = $@"{photo.Path}/ResizedImages/X{type.Width.ToString() + type.Height.ToString()}/";
 
                         if (!Directory.Exists(path))
                             Directory.CreateDirectory(path);

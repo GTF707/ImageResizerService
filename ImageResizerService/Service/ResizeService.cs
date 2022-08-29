@@ -10,54 +10,53 @@ using System.Linq;
 using ImageResizerService.Utils;
 using ImageResizerService.DTO;
 using ImageResizerService.Domen.Enum;
+using System.Drawing;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace ImageResizerService.Service
 {
     public class ResizeService : IResizeService
     {
         private IPhotoProvider PhotoProvider { get; set; }
-        private PhotoType type;
+        private PhotoType Type { get; set; }
+        
+
+        private const string LINK = "C:/Drive/C#Programm/Masters/Masters/Files/";
         
         public ResizeService(IPhotoProvider photoProvider)
         {
             PhotoProvider = photoProvider;
-            type = PhotoType.getFirst();
+            Type = PhotoType.getFirst();
         }
 
-        public async Task<ResponceFormatDto> SaveImage(IFormFile image)
+        public async Task<ResponceFormatDto> SaveImage(ResizeTaskRequest request)
         {
-            if (image == null)
+            //if (request == null)
+            //{
+            //    var path = $@"{request.Path}/CanseledFiles{request.Name}";
+            //    if (!Directory.Exists(path))
+            //        Directory.CreateDirectory(path);
+
+
+            //    return null;
+            //}
+
+            Image image = Image.FromFile(request.Path + request.Name);
+
+            if (Type.Width > image.Width || Type.Height > image.Height)
                 return null;
-
-            var file = System.Drawing.Image.FromStream(image.OpenReadStream());
-            
-                if (type.Width > file.Width || type.Height > file.Height)
-                    return null;
-            
-
-            string fileName = $"{CryptHelper.CreateMD5(Guid.NewGuid().ToString())}{Path.GetExtension(image.FileName)}";
-            var path = $"{Directory.GetCurrentDirectory()}/Files/";
-            path = path.Replace(@"\", "/");
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            using (var fileStream = new FileStream(path + fileName, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-            }
 
             var photo = new Photo
             {
-                Name = fileName,
-                PhotoStatus = Domen.Enum.PhotoStatus.Unreaded,
-                Path = path
+                Name = request.Name,
+                PhotoStatus = PhotoStatus.Unreaded,
+                Path = request.Path
             };
 
             PhotoProvider.Create(photo);
             PhotoProvider.SaveChanges();
 
-            var formatOptimizer = FormatOptimizer.GetStringFormats(file);
+            var formatOptimizer = FormatOptimizer.GetStringFormats(image);
             List<FormatType> formatEnums = new List<FormatType>();
             
             foreach (var item in formatOptimizer)
@@ -66,7 +65,7 @@ namespace ImageResizerService.Service
                 formatEnums.Add(type);
             }
 
-            ResponceFormatDto responce = new ResponceFormatDto(formatEnums, fileName);
+            ResponceFormatDto responce = new ResponceFormatDto(formatEnums, request.Name);
             return responce;
         }
     }

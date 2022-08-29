@@ -7,7 +7,7 @@ namespace ImageResizerService.Service
 {
     public interface IResizeService
     {
-        public Task<ResponceFormatDto> SaveImage(IFormFile image);
+        public Task<ResponceFormatDto> SaveImage(ResizeTaskRequest request);
 
     }
 }
