@@ -20,9 +20,12 @@ namespace ImageResizerService.Service
 {
     public class ResizeService : IResizeService
     {
+        private const string SOURCE_FOLDER = "/var/www/html/source/";
         private IPhotoProvider PhotoProvider { get; set; }
         private PhotoType Type { get; set; }
+        
         public ResizeService(IPhotoProvider photoProvider)
+
         {
             PhotoProvider = photoProvider;
             Type = PhotoType.getFirst();
@@ -43,7 +46,7 @@ namespace ImageResizerService.Service
             //Image image = Image.FromFile(request.Path + request.Name);
             Console.WriteLine("Файл получен и начинает обработку");
             Image image = null;
-            using (var stream = File.OpenRead(request.Path + request.Name))
+            using (var stream = File.OpenRead(SOURCE_FOLDER + request.Name))
             {
                 image = Image.Load(stream);
             }
@@ -57,7 +60,7 @@ namespace ImageResizerService.Service
             {
                 Name = request.Name,
                 PhotoStatus = PhotoStatus.Unreaded,
-                Path = request.Path
+                Path = SOURCE_FOLDER
             };
 
             PhotoProvider.Create(photo);

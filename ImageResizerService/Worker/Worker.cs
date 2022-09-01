@@ -17,7 +17,9 @@ namespace ImageResizerService.Worker
     public class Worker : BackgroundService
     {
 
-        //public const string LINK = "C:/Users/Alexander/Desktop/ConvertedImages";
+        //public const string RESIZED_FOLDER = "C:/Users/Alexander/Desktop/ConvertedImages";
+        public const string RESIZED_FOLDER = "/var/www/html/resized/";
+
         private IPhotoProvider PhotoProvider;
 
         public Worker(IPhotoProvider photoProvider)
@@ -69,7 +71,7 @@ namespace ImageResizerService.Worker
                 foreach (var type in FormatOptimizer.GetFormats(file))
                 {
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                        var path = $@"ResizedImages/X{type.Width.ToString() + type.Height.ToString()}/";
+                        var path = $@"{RESIZED_FOLDER}/X{type.Width.ToString() + type.Height.ToString()}/";
 
                         if (!Directory.Exists(path))
                             Directory.CreateDirectory(path);
