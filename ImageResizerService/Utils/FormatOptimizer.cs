@@ -1,6 +1,7 @@
 ﻿using FotoConvector.Domen;
 using System.Collections.Generic;
-
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 using System.Linq;
 
@@ -26,7 +27,7 @@ namespace ImageResizerService.Utils
             return photoTypes;
         }
 
-        public static List<string> GetStringFormats(System.Drawing.Image image)
+        public static List<string> GetStringFormats(Image image)
         {
             List<string> list = new List<string>();
             foreach (var type in PhotoType.getTypes())

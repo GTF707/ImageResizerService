@@ -10,7 +10,10 @@ using System.Linq;
 using ImageResizerService.Utils;
 using ImageResizerService.DTO;
 using ImageResizerService.Domen.Enum;
-using System.Drawing;
+//using System.Drawing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace ImageResizerService.Service
@@ -19,10 +22,10 @@ namespace ImageResizerService.Service
     {
         private IPhotoProvider PhotoProvider { get; set; }
         private PhotoType Type { get; set; }
-        
+
 
         private const string LINK = "C:/Drive/C#Programm/Masters/Masters/Files/";
-        
+
         public ResizeService(IPhotoProvider photoProvider)
         {
             PhotoProvider = photoProvider;
@@ -41,10 +44,17 @@ namespace ImageResizerService.Service
             //    return null;
             //}
 
-            Image image = Image.FromFile(request.Path + request.Name);
+            //Image image = Image.FromFile(request.Path + request.Name);
+            Image image = null;
+            using (var stream = File.OpenRead(request.Path + request.Name))
+            {
+                image = Image.Load(stream);
+            }
+
 
             if (Type.Width > image.Width || Type.Height > image.Height)
                 return null;
+
 
             var photo = new Photo
             {
@@ -58,7 +68,7 @@ namespace ImageResizerService.Service
 
             var formatOptimizer = FormatOptimizer.GetStringFormats(image);
             List<FormatType> formatEnums = new List<FormatType>();
-            
+
             foreach (var item in formatOptimizer)
             {
                 Enum.TryParse(item, out FormatType type);
