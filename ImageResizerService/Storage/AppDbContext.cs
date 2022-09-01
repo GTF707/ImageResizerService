@@ -24,7 +24,7 @@ namespace ImageResizerService.Storage
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=Ivan230691!;Database=ImageStorage");
+            optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=Ivan230691!;Database=image_storage");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
