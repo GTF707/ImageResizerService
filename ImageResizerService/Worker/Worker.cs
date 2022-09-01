@@ -67,7 +67,7 @@ namespace ImageResizerService.Worker
                 foreach (var type in FormatOptimizer.GetFormats(file))
                 {
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                        var path = $@"{photo.Path}/ResizedImages/X{type.Width.ToString() + type.Height.ToString()}/";
+                        var path = $@"ResizedImages/X{type.Width.ToString() + type.Height.ToString()}/";
 
                         if (!Directory.Exists(path))
                             Directory.CreateDirectory(path);
