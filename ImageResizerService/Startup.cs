@@ -39,6 +39,7 @@ namespace ImageResizerService
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            services.AddMvc(option => option.EnableEndpointRouting = false);
 
             services.AddDbContext<AppDbContext>();
 
@@ -90,12 +91,24 @@ namespace ImageResizerService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            app.UseCors(builder =>
+                builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
+
+            app.UseAuthentication();
+            app.UseMvc();
+            app.UseRouting();
+            //app.UseHttpsRedirection();
+
+
+            //             Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -106,16 +119,12 @@ namespace ImageResizerService
 
             });
 
-            app.UseHttpsRedirection();
+            //app.Run(c =>
+            //{
+            //    c.Response.Redirect("http://localhost:5001/swagger/index.html");
+            //    return Task.CompletedTask;
+            //});
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
