@@ -22,10 +22,6 @@ namespace ImageResizerService.Service
     {
         private IPhotoProvider PhotoProvider { get; set; }
         private PhotoType Type { get; set; }
-
-
-        private const string LINK = "C:/Drive/C#Programm/Masters/Masters/Files/";
-
         public ResizeService(IPhotoProvider photoProvider)
         {
             PhotoProvider = photoProvider;
