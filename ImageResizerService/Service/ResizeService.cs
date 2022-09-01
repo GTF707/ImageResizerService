@@ -41,6 +41,7 @@ namespace ImageResizerService.Service
             //}
 
             //Image image = Image.FromFile(request.Path + request.Name);
+            Console.WriteLine("Файл получен и начинает обработку");
             Image image = null;
             using (var stream = File.OpenRead(request.Path + request.Name))
             {
@@ -61,6 +62,7 @@ namespace ImageResizerService.Service
 
             PhotoProvider.Create(photo);
             PhotoProvider.SaveChanges();
+            Console.WriteLine("Файл добавлен в базу");
 
             var formatOptimizer = FormatOptimizer.GetStringFormats(image);
             List<FormatType> formatEnums = new List<FormatType>();
@@ -70,8 +72,10 @@ namespace ImageResizerService.Service
                 Enum.TryParse(item, out FormatType type);
                 formatEnums.Add(type);
             }
+            Console.WriteLine("Получены типы конвертирования для загруженного файла");
 
             ResponceFormatDto responce = new ResponceFormatDto(formatEnums, request.Name);
+            Console.WriteLine("Отправляется ответ");
             return responce;
         }
     }

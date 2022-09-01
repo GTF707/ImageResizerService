@@ -44,17 +44,20 @@ namespace ImageResizerService.Worker
                 Thread.Sleep(1000);
                 return;
             }
-
+            Console.WriteLine("WORKER Файл получен из базы данных");
             photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
             await PhotoProvider.SaveChangesAsync();
-
+            Console.WriteLine("WORKER Файл переведен в статус InProgress");
             foreach (var photo in photos)
             {
                 await resizePhoto(photo);
+                Console.WriteLine("WORKER Файл прошел конвертацию");
             }
 
             photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
             await PhotoProvider.SaveChangesAsync();
+            Console.WriteLine("WORKER Файл переведен в статус Readed");
+
 
         }
 
@@ -63,7 +66,6 @@ namespace ImageResizerService.Worker
             using (var stream = File.OpenRead(photo.Path + photo.Name))
             {
                 var file = Image.Load(stream);
-
                 foreach (var type in FormatOptimizer.GetFormats(file))
                 {
                         var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
