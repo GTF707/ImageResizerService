@@ -17,8 +17,8 @@ namespace ImageResizerService.Worker
     public class Worker : BackgroundService
     {
 
-        //public const string RESIZED_FOLDER = "C:/Users/Alexander/Desktop/ConvertedImages";
-        public const string RESIZED_FOLDER = "/var/www/html/resized/";
+        public const string RESIZED_FOLDER = "C:/Users/Alexander/Desktop/ConvertedImages/Resized";
+        //public const string RESIZED_FOLDER = "/var/www/html/resized/";
 
         private IPhotoProvider PhotoProvider;
 

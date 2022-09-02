@@ -20,7 +20,8 @@ namespace ImageResizerService.Service
 {
     public class ResizeService : IResizeService
     {
-        private const string SOURCE_FOLDER = "/var/www/html/source/";
+        //private const string SOURCE_FOLDER = "/var/www/html/source/";
+        private const string SOURCE_FOLDER = "C:/Users/Alexander/Desktop/ConvertedImages/";
         private IPhotoProvider PhotoProvider { get; set; }
         private PhotoType Type { get; set; }
         
@@ -33,28 +34,21 @@ namespace ImageResizerService.Service
 
         public async Task<ResponceFormatDto> SaveImage(ResizeTaskRequest request)
         {
-            //if (request == null)
-            //{
-            //    var path = $@"{request.Path}/CanseledFiles{request.Name}";
-            //    if (!Directory.Exists(path))
-            //        Directory.CreateDirectory(path);
 
-
-            //    return null;
-            //}
+            if (!Directory.Exists(SOURCE_FOLDER))
+                Directory.CreateDirectory(SOURCE_FOLDER);
 
             //Image image = Image.FromFile(request.Path + request.Name);
-            Console.WriteLine("Файл получен и начинает обработку");
+
             Image image = null;
             using (var stream = File.OpenRead(SOURCE_FOLDER + request.Name))
             {
                 image = Image.Load(stream);
             }
+            Console.WriteLine("Файл получен и начинает обработку");
 
-
-            if (Type.Width > image.Width || Type.Height > image.Height)
+            if (Type.Width > image.Width || Type.Height > image.Height || image.Width != image.Height)
                 return null;
-
 
             var photo = new Photo
             {
