@@ -20,8 +20,8 @@ namespace ImageResizerService.Service
 {
     public class ResizeService : IResizeService
     {
-        //private const string SOURCE_FOLDER = "/var/www/html/source/";
-        private const string SOURCE_FOLDER = "C:/Users/Alexander/Desktop/ConvertedImages/";
+        private const string SOURCE_FOLDER = "/var/www/html/source/";
+        //private const string SOURCE_FOLDER = "C:/Users/Alexander/Desktop/ConvertedImages/";
         private IPhotoProvider PhotoProvider { get; set; }
         private PhotoType Type { get; set; }
         
