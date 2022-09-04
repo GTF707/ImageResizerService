@@ -47,7 +47,7 @@ namespace ImageResizerService.Service
             }
             Console.WriteLine("Файл получен и начинает обработку");
 
-            if (Type.Width > image.Width || Type.Height > image.Height || image.Width != image.Height)
+            if (Type.Width > image.Width || Type.Height > image.Height)
                 return null;
 
             var photo = new Photo
