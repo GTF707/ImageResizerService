@@ -2,7 +2,7 @@
 {
     public class ResizeTaskRequest
     {
-        //public string Path { get; set; }
+        public string Path { get; set; }
         public string Name { get; set; }
 
         public ResizeTaskRequest()
@@ -10,9 +10,14 @@
 
         }
 
-        public ResizeTaskRequest(/*string path,*/ string name)
+        public ResizeTaskRequest(string path, string name)
         {
-            //Path = path;
+            Path = path;
+            Name = name;
+        }
+
+        public ResizeTaskRequest(string name)
+        {
             Name = name;
         }
     }
