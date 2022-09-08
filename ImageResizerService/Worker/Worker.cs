@@ -61,7 +61,6 @@ namespace ImageResizerService.Worker
             await PhotoProvider.SaveChangesAsync();
             //Console.WriteLine("WORKER Файл переведен в статус Readed");
 
-
         }
 
         public async Task resizePhoto(Photo photo)

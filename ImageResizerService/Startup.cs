@@ -41,17 +41,15 @@ namespace ImageResizerService
             });
             services.AddMvc(option => option.EnableEndpointRouting = false);
 
-            services.AddDbContext<AppDbContext>();
+            //services.AddDbContext<AppDbContext>(ServiceLifetime.Transient);
+            //services.AddDbContext<AppDbContext>();
+            services.AddTransient<AppDbContext>();
 
 
 
-            services.AddSingleton<IResizeService, ResizeService>();
+            services.AddTransient<IResizeService, ResizeService>();
 
-            services.AddSingleton<IPhotoProvider, PhotoProvider>();
-
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            
-            services.AddSingleton(s => new AppDbContext(optionsBuilder.Options));
+            services.AddTransient<IPhotoProvider, PhotoProvider>();
 
             services.AddHostedService<Worker.Worker>();
 
