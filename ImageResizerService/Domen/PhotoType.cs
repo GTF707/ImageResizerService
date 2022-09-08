@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+
 namespace FotoConvector.Domen
 {
     public class PhotoType
     {
         private static List<PhotoType> Types;
 
-        public static List<PhotoType> getTypes()
+        public static async Task<List<PhotoType>> getTypes()
         {
             if (Types == null || Types.Count == 0)
-                Types = fillTypes();
+                Types = await fillTypes();
             return Types;
         }
 
-        public static PhotoType getFirst()
+        public static async Task<PhotoType> getFirst()
         {
             if (Types == null || Types.Count == 0)
-                Types = fillTypes();
+                Types = await fillTypes();
             return Types.First();
         }
 
@@ -30,7 +32,7 @@ namespace FotoConvector.Domen
             Height = height;
         }
 
-        private static List<PhotoType> fillTypes()
+        private static async Task<List<PhotoType>> fillTypes()
         {
             var types = new List<PhotoType>();
             for(int i = 2; i < 16; i+=2)

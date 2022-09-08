@@ -43,6 +43,8 @@ namespace ImageResizerService
 
             services.AddDbContext<AppDbContext>();
 
+
+
             services.AddSingleton<IResizeService, ResizeService>();
 
             services.AddSingleton<IPhotoProvider, PhotoProvider>();

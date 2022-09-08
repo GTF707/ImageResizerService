@@ -9,6 +9,8 @@ namespace ImageResizerService.Service
     {
         public Task<ResponceFormatDto> SaveImage(ResizeTaskRequest request);
 
+        public Task<ResizeTaskRequest> SaveAllImages(ResizeTaskRequest request);
+
     }
 }
 

@@ -30,7 +30,7 @@ namespace ImageResizerService.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while(true)
+            while (true)
                 await doWork();
         }
 
@@ -39,7 +39,7 @@ namespace ImageResizerService.Worker
             var photos = await PhotoProvider
                 .GetAll()
                 .Where(x => x.PhotoStatus.Equals(PhotoStatus.Unreaded))
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             if (photos.Count == 0)
@@ -47,10 +47,10 @@ namespace ImageResizerService.Worker
                 Thread.Sleep(1000);
                 return;
             }
-            Console.WriteLine("WORKER Файл получен из базы данных");
+            //Console.WriteLine("WORKER Файл получен из базы данных");
             photos.ForEach(p => p.PhotoStatus = PhotoStatus.InProgress);
             await PhotoProvider.SaveChangesAsync();
-            Console.WriteLine("WORKER Файл переведен в статус InProgress");
+            //Console.WriteLine("WORKER Файл переведен в статус InProgress");
             foreach (var photo in photos)
             {
                 await resizePhoto(photo);
@@ -59,33 +59,33 @@ namespace ImageResizerService.Worker
 
             photos.ForEach(p => p.PhotoStatus = PhotoStatus.Readed);
             await PhotoProvider.SaveChangesAsync();
-            Console.WriteLine("WORKER Файл переведен в статус Readed");
+            //Console.WriteLine("WORKER Файл переведен в статус Readed");
 
 
         }
 
-        private async Task resizePhoto(Photo photo)
+        public async Task resizePhoto(Photo photo)
         {
             using (var stream = File.OpenRead(photo.Path + photo.Name))
             {
                 var file = Image.Load(stream);
-                foreach (var type in FormatOptimizer.GetFormats(file))
+                foreach (var type in await FormatOptimizer.GetFormats(file))
                 {
-                        var convertedImage = resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
-                        var path = $@"{photo.Path}Resized/X{type.Width.ToString() + type.Height.ToString()}/";
+                    var convertedImage = await resizeImage(file, new Size(Convert.ToInt32(type.Width), Convert.ToInt32(type.Height)));
+                    var path = $@"{photo.Path}Resized/X{type.Width.ToString() + type.Height.ToString()}/";
 
-                        if (!Directory.Exists(path))
-                            Directory.CreateDirectory(path);
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
 
-                        await convertedImage.SaveAsync(path + photo.Name);
+                    
+                    await convertedImage.SaveAsync(path + photo.Name);
                 }
             };
         }
-           
-        public static Image resizeImage(Image imgToResize, Size size)
+
+        public async Task<Image> resizeImage(Image imgToResize, Size size)
         {
-            var clone = imgToResize.Clone(
-                    i => i.Resize(size.Width, size.Height));
+            var clone = imgToResize.Clone(i => i.Resize(size.Width, size.Height));
             return clone;
         }
     }
