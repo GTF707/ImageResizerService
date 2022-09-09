@@ -39,7 +39,7 @@ namespace ImageResizerService.Utils
                 }
                 else
                 {
-                    list.Add("W" + type.Width.ToString() + "_H" + type.Height.ToString());
+                    list.Add("X" + type.Width.ToString() + "" + type.Height.ToString());
                 }
             }
             return list;

@@ -35,7 +35,7 @@ namespace ImageResizerService.Controllers
         [ProducesResponseType(typeof(void), 200)]
         [Produces("application/json")]
         [HttpPost("save-all-files")]
-        public async Task<ResizeTaskRequest> ConvertAllImages([FromBody] ResizeTaskRequest request)
+        public async Task<ResizeAllTasksRequest> ConvertAllImages([FromBody] ResizeAllTasksRequest request)
         {
             return await ResizeService.SaveAllImages(request);
         }

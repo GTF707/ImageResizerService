@@ -86,7 +86,7 @@ namespace ImageResizerService.Service
             return responce;
         }
 
-        public async Task<ResizeTaskRequest> SaveAllImages(ResizeTaskRequest request)
+        public async Task<ResizeAllTasksRequest> SaveAllImages(ResizeAllTasksRequest request)
         {
             List<string> images = new List<string>();
             foreach (var item in request.NamesList)
@@ -95,7 +95,7 @@ namespace ImageResizerService.Service
                 if (response != null)
                     images.Add(response.FileName);
             }
-            ResizeTaskRequest resizeTaskRequest = new ResizeTaskRequest(request.Path, images);
+            ResizeAllTasksRequest resizeTaskRequest = new ResizeAllTasksRequest(request.Path, images);
             return resizeTaskRequest;
         }
     }
