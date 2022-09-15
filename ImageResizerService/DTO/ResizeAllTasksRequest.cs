@@ -16,6 +16,7 @@ namespace ImageResizerService.DTO
         {
             Path = path;
             NamesList = namesList;
+
         }
     }
 }

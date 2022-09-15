@@ -1,6 +1,7 @@
 ﻿using ImageResizerService.DTO;
 using ImageResizerService.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ImageResizerService.Controllers
@@ -32,10 +33,10 @@ namespace ImageResizerService.Controllers
         /// Конвертация всех имеющихся изображений
         /// </summary>
         /// <returns></returns>
-        [ProducesResponseType(typeof(void), 200)]
+        [ProducesResponseType(typeof(List<ResponceFormatDto>), 200)]
         [Produces("application/json")]
         [HttpPost("save-all-files")]
-        public async Task<ResizeAllTasksRequest> ConvertAllImages([FromBody] ResizeAllTasksRequest request)
+        public async Task<List<ResponceFormatDto>> ConvertAllImages([FromBody] ResizeAllTasksRequest request)
         {
             return await ResizeService.SaveAllImages(request);
         }

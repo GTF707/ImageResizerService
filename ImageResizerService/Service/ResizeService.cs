@@ -36,18 +36,26 @@ namespace ImageResizerService.Service
             //Image image = Image.FromFile(request.Path + request.Name);
 
             Image image = null;
-            using (var stream = File.OpenRead(request.Path + request.Name))
+            try
             {
-                try
+                using (var stream = File.OpenRead(request.Path + request.Name))
                 {
-                    image = Image.Load(stream);
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
+                    try
+                    {
+                        image = Image.Load(stream);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
 
+                }
             }
+            catch
+            {
+                return null;
+            }
+
 
             if (image == null)
             {
@@ -86,17 +94,16 @@ namespace ImageResizerService.Service
             return responce;
         }
 
-        public async Task<ResizeAllTasksRequest> SaveAllImages(ResizeAllTasksRequest request)
+        public async Task<List<ResponceFormatDto>> SaveAllImages(ResizeAllTasksRequest request)
         {
-            List<string> images = new List<string>();
+            List<ResponceFormatDto> responceFormats = new List<ResponceFormatDto>();
             foreach (var item in request.NamesList)
             {
                 var response = await SaveImage(new ResizeTaskRequest(request.Path, item));
                 if (response != null)
-                    images.Add(response.FileName);
+                    responceFormats.Add(response);
             }
-            ResizeAllTasksRequest resizeTaskRequest = new ResizeAllTasksRequest(request.Path, images);
-            return resizeTaskRequest;
+            return responceFormats;
         }
     }
 }
