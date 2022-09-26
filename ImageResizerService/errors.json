@@ -1,0 +1,28 @@
+﻿[
+  {
+    "code": -1,
+    "en": "",
+    "ru": ""
+  },
+  {
+    "code": 1,
+    "en": "Unable to load image.",
+    "ru": "Невозможно загрузить изображение."
+  },
+  {
+    "code": 2,
+    "en": "Image link is not valid.",
+    "ru": "Ссылка на изображение не действительна."
+  },
+  {
+    "code": 3,
+    "en": "Image is null.",
+    "ru": "Изображение равно null."
+  },
+  {
+    "code": 4,
+    "en": "The image does not meet the minimum aspect ratio specifications.",
+    "ru": "Изображение не соответствует минимальным характеристикам соотношения сторон."
+  }
+
+]

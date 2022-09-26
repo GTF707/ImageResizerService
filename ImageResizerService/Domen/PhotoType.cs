@@ -35,9 +35,14 @@ namespace FotoConvector.Domen
         private static async Task<List<PhotoType>> fillTypes()
         {
             var types = new List<PhotoType>();
-            for(int i = 2; i < 16; i+=2)
-                types.Add(new PhotoType(i* 32, i * 32));
+            for (int i = 2; i < 16; i += 2)
+            {
+                double width = i * 32;
+                double height = (((double)i * 32) * (1 + (25.0 / 100.0)));
 
+
+                types.Add(new PhotoType(width, height));
+            }
             return types;
         }
     }

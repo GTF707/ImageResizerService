@@ -1,13 +1,13 @@
 ﻿namespace ImageResizerService.Domen.Enum
 {
-    public enum FormatType
+    public enum FormatType  
     {
-        X6464,
-        X128128,
-        X192192,
-        X256256,
-        X320320,
-        X384384,
-        X448448
+        X6480,
+        X128160,
+        X192240,
+        X256320,
+        X320400,
+        X384480,
+        X448560
     }
 }
