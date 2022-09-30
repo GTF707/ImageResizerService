@@ -44,27 +44,27 @@ namespace ImageResizerService.Service
                     {
                         image = Image.Load(stream);
                     }
-                    catch
+                    catch (Exception)
                     {
-                        throw new ServiceErrorException(1);
+                        return null;
                     }
                 }
             }
             catch
             {
-                throw new ServiceErrorException(2);
+                return null;
             }
 
 
             if (image == null)
             {
-                throw new ServiceErrorException(3);
+                return null;
             }
             //Console.WriteLine("Файл получен и начинает обработку");
 
             if (Type.Result.Width > image.Width || Type.Result.Height > image.Height)
             {
-                throw new ServiceErrorException(4);
+                return null;
             }
 
             var photo = new Photo
